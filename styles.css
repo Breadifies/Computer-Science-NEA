@@ -1,3 +1,8 @@
-.testing{
-   color: #ff3234
+#testing{
+   color: #ff3234;
+}
+
+section{
+   border: 5px;
+   font-size: 2em;
 }
