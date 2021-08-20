@@ -1,8 +1,10 @@
-#testing{
-   color: #ff3234;
+/*comment*/
+
+canvas {
+   border: 1px solid black;
+   background: rgb(181, 186, 187);
 }
 
-section{
-   border: 5px;
-   font-size: 2em;
+body {
+   margin: 0;
 }
