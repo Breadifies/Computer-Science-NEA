@@ -50,12 +50,28 @@ var c = canvas.getContext("2d");    //c stands for context
 
 //CTRL + K + U to uncomment
 
-var colorpalette = ["cyan", "brown", "black", "darkblue", "white", "turquoise"];
-var color = colorpalette[Math.floor(Math.random() * colorpalette.length)];
+var mouse = {
+    x: undefined,
+    y: undefined
+}
+
+
+var colorpalette = ["cyan", "brown", "black", "darkblue", "white", ];
 
 
 
+var maxRadius = 40;
+var minRadius= 5;
+window.addEventListener("mousemove",
+     function(event){ //event argument takes the positions of associated events (mouse)onscreen
+    mouse.x = event.x;
+    mouse.y = event.y;
+     })
 
+window.addEventListener("resize", function(){  //function to resize canvas when you resize window
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+})
 
 
 function Circle(x, y, dx, dy, radius,) {
@@ -64,12 +80,14 @@ function Circle(x, y, dx, dy, radius,) {
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
+    this.minRadius = radius;
+    this.color = colorpalette[Math.floor(Math.random() * colorpalette.length)];
     this.draw = function(){  //function to draw circle
         c.beginPath(); 
         c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false); 
-        c.strokeStyle = color;
+        c.strokeStyle = this.color;
         c.stroke(); 
-        c.fillStyle = color;
+        c.fillStyle = this.color;
         c.fill();
     }
 
@@ -85,27 +103,41 @@ function Circle(x, y, dx, dy, radius,) {
         this.y += this.dy;
         this.x += this.dx;
 
+        //this is where interactivity occurs
+
+        if (mouse.x - this.x < 50 && mouse.x - this.x > -50 && mouse.y - this.y < 50 && mouse.y - this.y > -50) {
+            if (this.radius < maxRadius) {
+            this.radius += 1;
+            }
+        }else if (this.radius > this.innerHeightRadius) {
+            this.radius-= 0.1;
+        }
+
+
+
+
         this.draw(); //calls draw function
 
     }
 }
 
 
-
-
 var circleArray = [];  //stores all instances of circles into array
 
-for (var i = 0;i < 1000; i++){ 
-    var radius = Math.random()*5;
-    var x = Math.random()*(innerWidth-radius*2)+radius;//stops spawning outside screen
-    var y = Math.random()*(innerHeight-radius*2)+radius;
-    var dx = (Math.random()-0.5) * 20;
-    var dy= (Math.random()-0.5) * 5;
+function init() { //calls function every time (compensates for resized windows)
 
-    circleArray.push(new Circle(x, y, dx, dy, radius));  //adds a circle to the array
-}
+    circleArray = []
+    for (var i = 0;i < 500; i++){ 
+        var radius = Math.random()*10 + 1;
+        var x = Math.random()*(innerWidth-radius*2)+radius;//stops spawning outside screen
+        var y = Math.random()*(innerHeight-radius*2)+radius;
+        var dx = (Math.random()-0.5) * 8;
+        var dy= (Math.random()-0.5) * 5;
+    
+        circleArray.push(new Circle(x, y, dx, dy, radius));  //adds a circle to the array
+    }    
 
-
+};
 
 
 function animate() { //animating the object
@@ -117,4 +149,6 @@ function animate() { //animating the object
     }
    
 }
+
+init();
 animate();
