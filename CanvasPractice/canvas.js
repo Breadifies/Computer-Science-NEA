@@ -109,8 +109,8 @@ function Circle(x, y, dx, dy, radius,) {
             if (this.radius < maxRadius) {
             this.radius += 1;
             }
-        }else if (this.radius > this.innerHeightRadius) {
-            this.radius-= 0.1;
+        }else if (this.radius > this.minRadius) {
+            this.radius-= 1;
         }
 
 
@@ -127,7 +127,7 @@ var circleArray = [];  //stores all instances of circles into array
 function init() { //calls function every time (compensates for resized windows)
 
     circleArray = []
-    for (var i = 0;i < 500; i++){ 
+    for (var i = 0;i < 200; i++){ 
         var radius = Math.random()*10 + 1;
         var x = Math.random()*(innerWidth-radius*2)+radius;//stops spawning outside screen
         var y = Math.random()*(innerHeight-radius*2)+radius;
