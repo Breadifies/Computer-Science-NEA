@@ -36,7 +36,7 @@ window.addEventListener("mousedown",//event when user clicks the screen with the
  })
 
 
-var UGC = -1;
+var UGC = -10;
 var sun = new cObject(450, 400, 0, 0, 50, 50, 0, false);
 sun.static = true;
 var cBodies = [sun];
