@@ -1,0 +1,8 @@
+canvas {
+    border: 1px solid black;
+    background: rgb(181, 186, 187);
+}
+
+body {
+    margin: 0; /*overrides preset borwser property so there is no margin for the container*/
+}
