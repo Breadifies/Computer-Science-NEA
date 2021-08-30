@@ -10,15 +10,6 @@ window.addEventListener("resize", function(){ //function to resize canvas when y
     canvas.height = window.innerHeight;
 })
 
-
-
-
-
-
-
-
-
-
 var mouse = { //i will take values of mouse position on window
     x: undefined,
     y: undefined
@@ -32,12 +23,12 @@ window.addEventListener("mousemove", //all data about the mouse is retrieved
 
 window.addEventListener("mousedown",//event when user clicks the screen with the mouse once
     function(){
-    cBodies.push(new cObject(mouse.x, mouse.y, 2, 1, 30, 20, 0, false));
+    cBodies.push(new cObject(mouse.x, mouse.y, 250, Math.PI/2, 30, 20,  false));
  })
 
 
-var UGC = -10;
-var sun = new cObject(450, 400, 0, 0, 50, 50, 0, false);
+var UGC = 10;
+var sun = new cObject(450, 400, 0, 0, 50, 10000000, false);
 sun.static = true;
 var cBodies = [sun];
 
@@ -46,14 +37,13 @@ var cBodies = [sun];
 
 
 
-function cObject(x, y, dx, dy, radius, mass, size, collide){
+function cObject(x, y, v, angle, radius, mass, collide){
     this.x = x;
     this.y = y;
-    this.dx = dx;
-    this.dy = dy;
+    this.vx = v * Math.cos(angle);
+    this.vy = v * Math.cos(angle);
     this.radius = radius;
     this.mass = mass;
-    this.size = size;
     this.collide = collide;
     this.ax = 0;
     this.ay = 0;
@@ -74,18 +64,14 @@ function cObject(x, y, dx, dy, radius, mass, size, collide){
          }else if (cBodies.length > 1){
         for (var i = 0; i< cBodies.length;i++){
             if (otherBody != this){
-            var distx = this.x - otherBody.x
-            var disty = this.y - otherBody.y
-            var forcex = (UGC*this.mass*otherBody.mass)/(distx*distx);
-            var forcey = (UGC*this.mass*otherBody.mass)/(disty*disty);
-            if (distx<0){
-                forcex = -forcex;
-            }
-            if (disty<0){
-                forcey = -forcey;
-            }
-            this.ax = (forcex/mass);
-            this.ay = (forcey/mass);
+            var distance = Math.sqrt(this.x - otherBody.x)*(this.x-otherBody.x) + (this.y - otherBody.y)*(this.y - otherBody.y);
+            var force = UGC*(this.mass * otherBody.mass)/distance/distance;
+            var newx = (otherBody.x - this.x)/distance;
+            var newy = (otherBody.y - this.y)/distance;
+            this.ax += newx * force / this.mass;
+            this.ay += newy * force / this.mass;
+            otherBody.ax -= newx * force / otherBody.mass;
+            otherBody.ay -= newy * force / otherBody.mass; 
             this.dx += this.ax;
             this.dy += this.ay;
             
@@ -149,5 +135,3 @@ animate();
 //Put in variables as put before
 //use vairavbles for x and y directions opposed to vectors
 //integrate mouseclick events
-
-
