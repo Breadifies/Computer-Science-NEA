@@ -1,12 +1,24 @@
-var canvas = document.querySelector("canvas");
 
-canvas.width = window.innerWidth; //setting the canvas area to be the entire window
+var canvas = document.querySelector("canvas");  //c stands for context
+canvas.width = window.innerWidth;//setting the canvas area to be the entire window
 canvas.height = window.innerHeight;
-
-var c = canvas.getContext("2d");  //c stands for context
+var c = canvas.getContext("2d");
+var cBodies = [];
+const UGC = 0.1; //global variable to change gravitational constant
+const softeningConstant = 0;
+function init() {//inititalidsses the entire simulation
+    createBodies();
+    setInterval(function(){//setInterval() is a prebuilt method which calls functions rep0eatredly with a time delay
+        updateSystem();
+        updateBodies(0.08);
+        c.clearRect(0, 0, innerWidth, innerHeight);//clears entire window so that more objects can be "animated"
+        drawBodies();
+    }, 8)
+    
+}
 
 window.addEventListener("resize", function(){ //function to resize canvas when you resize window
-    canvas.width = window.innerHeight;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 })
 
@@ -22,116 +34,82 @@ window.addEventListener("mousemove", //all data about the mouse is retrieved
     })
 
 window.addEventListener("mousedown",//event when user clicks the screen with the mouse once
-    function(){
-    cBodies.push(new cObject(mouse.x, mouse.y, 250, Math.PI/2, 30, 20,  false));
+    function(){//as of now, initialises bodt with preset velocities
+    cBodies.push(new cObject(mouse.x, mouse.y, 5, 0 ,0, 1));
  })
 
 
-var UGC = 10;
-var sun = new cObject(450, 400, 0, 0, 50, 10000000, false);
-sun.static = true;
-var cBodies = [sun];
+function createBodies(){ //instantiate the prewritten bodies
+    cBodies.push(new cObject(window.innerWidth/2, window.innerHeight/2, 15, 0, 0, 100));
+    cBodies.push(new cObject(window.innerWidth/2 + 100, window.innerHeight/2, 2, 0, 0, 10));
+}
 
-
-
-
-
-
-function cObject(x, y, v, angle, radius, mass, collide){
-    this.x = x;
-    this.y = y;
-    this.vx = v * Math.cos(angle);
-    this.vy = v * Math.cos(angle);
-    this.radius = radius;
-    this.mass = mass;
-    this.collide = collide;
-    this.ax = 0;
-    this.ay = 0;
-    this.static = false;
-
-    this.draw = function(){ //function to "draw" the cObject circle on the canvas
-        c.beginPath(); 
-        c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false); //drawing a circle using arcs, taking positions, radius and direction of arc drawing
-        c.strokeStyle = "black"; //colour of circle border
-        c.stroke();
-        c.fillStyle = "black";//colour of circle
-        c.fill();
+function drawBodies(){ //separate function for drawing the new pointsfor each cObject
+    for (var i = 0;i< cBodies.length;i++){ //iterates for every cObject in the array
+    cBodies[i].draw(c);
     }
+}
 
-    this.updateVel = function(otherBody) {//
-        if (this.static == true){
-            return null;
-         }else if (cBodies.length > 1){
-        for (var i = 0; i< cBodies.length;i++){
-            if (otherBody != this){
-            var distance = Math.sqrt(this.x - otherBody.x)*(this.x-otherBody.x) + (this.y - otherBody.y)*(this.y - otherBody.y);
-            var force = UGC*(this.mass * otherBody.mass)/distance/distance;
-            var newx = (otherBody.x - this.x)/distance;
-            var newy = (otherBody.y - this.y)/distance;
-            this.ax += newx * force / this.mass;
-            this.ay += newy * force / this.mass;
-            otherBody.ax -= newx * force / otherBody.mass;
-            otherBody.ay -= newy * force / otherBody.mass; 
-            this.dx += this.ax;
-            this.dy += this.ay;
+function updateBodies(dt){ //function for executing update method for every cObject
+    for(var i = 0; i < cBodies.length;i++){
+        cBodies[i].update(dt);
+    }
+}
+
+function updateSystem(){
+    for(var i = 0;i < cBodies.length;i++){ //more efficient than previous method, less checks, more comapct 
+        for (var j = 0;j< cBodies.length;j++){
+            if(i==j)continue; //continue terminates the exectuion and moves onto the next iterative loop, like previously made if (otherBody != this)
+            var b1 = cBodies[i]; //like this and otherBody
+            var b2 = cBodies[j];
+
+            var distance = Math.sqrt(  //calculating via pythagoras
+                (b1.x - b2.x)*(b1.x - b2.x) +
+                (b1.y - b2.y)*(b1.y - b2.y)
+            );
+
+            var force = UGC*(b1.mass*b2.mass)/distance/(distance + softeningConstant);//Law of gravitation
             
-            }
-         }
-    
-    }
+            var nx = (b2.x - b1.x)/distance;
+            var ny = (b2.y - b1.y)/distance;
 
-    }
-    
-    this.updatePos = function() {
-        this.x += this.dx;
-        this.y += this.dy;
-
-        this.draw();
-    }
-
-
-   
-    
-   
-
-
-    
- };
-
-
-
-function animate() { //function which animates the objects, looping through time steps
-    requestAnimationFrame(animate);
-    c.clearRect(0, 0, innerWidth, innerHeight);//resets the state of the entire window
-    // for (var i = 0; i < cBodies.length; i++){
-    //     for (var j = 0; j < cBodies.length;j++){
-    //     cBodies[i].updateVel();
-    //     }
-    // }
-
-    for (var i = 0; i < cBodies.length; i++){
-        for (var j = 0;j < cBodies.length; j++){
-            cBodies[i].updateVel(cBodies[j]); //every time this loop is called, it goes through each circle in the array
+            b1.ax += nx * force / b1.mass;
+            b1.ay += ny * force / b1.mass;
+            b2.ay -= nx * force / b2.mass;
+            b2.ay -= ny * force / b2.mass;
         }
-       
     }
-
-
-
-    for (var i = 0;i < cBodies.length; i++){//dynamic arrays in javascript, loops for every cBodies object
-        cBodies[i].updatePos()
-    }
-    
 }
 
 
-animate();
+
+function cObject(x, y, radius, v, angle, mass){ //class for creating objects
+    this.x = x;
+    this.y  = y;
+    this.radius = radius;
+    this.vx = v * Math.cos(angle); //locate the direction of the velocity for both x and y values in the absence of inbuilt functions
+    this.vy = v * Math.sin(angle);
+    this.mass = mass;
+    this.ax = 0;
+    this.ay = 0;
+
+    this.draw = function(c){ //draws the object on the canvas
+        c.beginPath();
+        c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        c.stroke();
+        c.fill();
+
+    }
+
+    this.update = function(dt){ //updates the velocities and positions of the object with respect to time
+        this.vx += this.ax * dt; //velocity = acceleration * time
+        this.vy += this.ay * dt;
+
+        this.x += this.vx * dt;//distance = velocity * time
+        this.y += this.vy * dt;
+    };
 
 
 
-
-//TIMELINE
-//Initialse as usual accroding to template for circles
-//Put in variables as put before
-//use vairavbles for x and y directions opposed to vectors
-//integrate mouseclick events
+}
+init();
