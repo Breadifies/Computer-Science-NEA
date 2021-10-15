@@ -10,11 +10,11 @@ window.addEventListener("resize", function(){ //function to resize canvas when y
 
 //a scale reference is made when basing upon what the values of the cObjects should be, in this scenarion, m is equal to 1 solar mass
 const cBodies = [
-// {m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",},
-// { m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62,radius: 7,color:"0, 12, 153",},
-// {m: 2.45e-6,x: -0.168,y: 0.698,vx: 7.21,vy: 1.77,radius: 7,color:"100, 240, 150",},
-// {m: 3e-6,x: 0.649,y: 0.748,vx: -4.85,vy: 4.97,radius: 7,color:"210, 200, 24",},
-// {m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 12,color:"230, 230, 200",}
+{m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",},
+{m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62,radius: 7,color:"0, 12, 153",},
+{m: 2.45e-6,x: -0.168,y: 0.698,vx: 7.21,vy: 1.77,radius: 7,color:"100, 240, 150",},
+{m: 3e-6,x: 0.649,y: 0.748,vx: -4.85,vy: 4.97,radius: 7,color:"210, 200, 24",},
+{m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 12,color:"230, 230, 200",}
 ];
 
 const UGC = 39.5;
@@ -168,7 +168,7 @@ canvas.addEventListener("mouseup",
     const vx = -(e.clientX - mousePressX) / velocityDragMult;
     const vy = -(e.clientY - mousePressY) / velocityDragMult;
 
-    nBodyInstance.cBodies.push({m: 0.5, x, y, vx, vy, cobject: new cObject(c, 15, "24, 240, 2")});
+    nBodyInstance.cBodies.push({m: 0.005, x, y, vx, vy, cobject: new cObject(c, 2, "255, 255, 255")});
     dragging = false;
     },
     false
