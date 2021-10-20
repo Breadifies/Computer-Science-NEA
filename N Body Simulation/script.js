@@ -147,9 +147,9 @@ let dragging = false;
 
 canvas.addEventListener("mousedown", 
  function(e) {
-    mousePressX = e.clientX;
+    mousePressX = e.clientX; //taken directly frrom the window's data on the relative mouse parameters for x and y values 
     mousePressY = e.clientY;
-    dragging = true;
+    dragging = true;//mousedown vs mouseup discerns the positions and distances that are calculated
   },
   false
 );
@@ -168,9 +168,11 @@ canvas.addEventListener("mouseup",
     const y = (mousePressY - height / 2) / scale;
     const vx = -(e.clientX - mousePressX) / velocityDragMult;
     const vy = -(e.clientY - mousePressY) / velocityDragMult;
+    //negative to simulate slingshot-like input feedback
 
     nBodyInstance.cBodies.push({m: 0.005, x, y, vx, vy, cobject: new cObject(c, 2, "255, 255, 255")});
     dragging = false;
+  //placeholder cBody which pushes a pre determined object into the simulation at the mouse's position.
     },
     false
   );
@@ -183,11 +185,11 @@ canvas.addEventListener("mouseup",
 //animates and iteratively draws the objects visually on the canvas
   const animate = function(){
     nBodyInstance.updatePos().updateAccel().updateVel();//Accel update runs before Velocity
-    c.clearRect(0, 0, width, height);  //clears the canvas screen of any objects (to input new psotions of objects)
+    c.clearRect(0, 0, width, height);  //clears the canvas screen of any objects (to input new positions of objects)
     const cBodiesLen = nBodyInstance.cBodies.length;
     for (let i = 0; i < cBodiesLen; i++) {
       const thisBody = nBodyInstance.cBodies[i];
-      //centers the postion of the bodies relative to the canvas screen
+      //centers the position of the bodies relative to the canvas screen
       const x = width / 2 + thisBody.x * scale;
       const y = height / 2 + thisBody.y * scale;
       thisBody.cobject.drawObj(x, y);
