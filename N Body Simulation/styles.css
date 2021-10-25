@@ -5,4 +5,29 @@ canvas {
 
 body {
     margin: 0; /*overrides preset borwser property so there is no margin for the container*/
+    overflow: hidden; /*prevents use of scrollbar*/
+}
+
+.paramBtn {
+    position: absolute; /*absolute positioning to allow objects inside canvas container*/
+    right: 10px;
+    width: 90px;
+    height: 80px;
+ 
+}
+
+#clearBtn {
+    top:600px;
+}
+#timeBtn {
+    top:500px;
+}
+#physicsBtn {
+    top:400px;
+}
+#objectBotBtn {
+    top:300px;
+}
+#objectTopBtn {
+    top:220px;
 }
