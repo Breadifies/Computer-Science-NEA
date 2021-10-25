@@ -10,12 +10,13 @@ window.addEventListener("resize", function(){ //function to resize canvas when y
 
 //a scale reference is made when basing upon what the values of the cObjects should be, in this scenarion, m is equal to 1 solar mass
 const cBodies = [
-{m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",},
-{m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62,radius: 7,color:"0, 12, 153",},
-{m: 2.45e-6,x: -0.168,y: 0.698,vx: 7.21,vy: 1.77,radius: 7,color:"100, 240, 150",},
-{m: 3e-6,x: 0.649,y: 0.748,vx: -4.85,vy: 4.97,radius: 7,color:"210, 200, 24",},
-{m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 12,color:"230, 230, 200",}
-];
+{m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62,radius: 5,color:"0, 12, 153",}, //mercury
+{m: 2.45e-6,x: -0.168,y: 0.698,vx: 7.21,vy: 1.77,radius: 5.8,color:"100, 240, 150",}, //venus
+{m: 3e-6,x: 0.649,y: 0.748,vx: -4.85,vy: 4.97,radius: 6.2,color:"210, 200, 24",}, //earth
+{m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 6.25,color:"230, 80, 40",}, //mars
+{m: 9.54e-4,x: 4.41,y: -2.35,vx: 1.263,vy: 2.56,radius: 12,color:"200, 150, 20",}, //jupiter
+{m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",} //sun
+]
 
 const UGC = 39.5;
 const dt = 0.008; 
@@ -145,16 +146,16 @@ let currentMouseY = 0;
 let dragging = false;
 
 canvas.addEventListener("mousedown", 
-  e => {
-    mousePressX = e.clientX;
+ function(e) {
+    mousePressX = e.clientX; //taken directly frrom the window's data on the relative mouse parameters for x and y values 
     mousePressY = e.clientY;
-    dragging = true;
+    dragging = true;//mousedown vs mouseup discerns the positions and distances that are calculated
   },
   false
 );
 
 canvas.addEventListener("mousemove", 
-  e => {
+  function(e) {
     currentMouseX = e.clientX;
     currentMouseY = e.clientY;
   },
@@ -162,14 +163,16 @@ canvas.addEventListener("mousemove",
 );
 
 canvas.addEventListener("mouseup",
-  e =>{
+  function(e) {
     const x = (mousePressX - width / 2) / scale;
     const y = (mousePressY - height / 2) / scale;
     const vx = -(e.clientX - mousePressX) / velocityDragMult;
     const vy = -(e.clientY - mousePressY) / velocityDragMult;
+    //negative to simulate slingshot-like input feedback
 
-    nBodyInstance.cBodies.push({m: 0.0005, x, y, vx, vy, cobject: new cObject(c, 2, "255, 255, 255")});
+    nBodyInstance.cBodies.push({m: 0.005, x, y, vx, vy, cobject: new cObject(c, 2, "255, 255, 255")});
     dragging = false;
+  //placeholder cBody which pushes a pre determined object into the simulation at the mouse's position.
     },
     false
   );
@@ -182,11 +185,11 @@ canvas.addEventListener("mouseup",
 //animates and iteratively draws the objects visually on the canvas
   const animate = function(){
     nBodyInstance.updatePos().updateAccel().updateVel();//Accel update runs before Velocity
-    c.clearRect(0, 0, width, height);  //clears the canvas screen of any objects (to input new psotions of objects)
+    c.clearRect(0, 0, width, height);  //clears the canvas screen of any objects (to input new positions of objects)
     const cBodiesLen = nBodyInstance.cBodies.length;
     for (let i = 0; i < cBodiesLen; i++) {
       const thisBody = nBodyInstance.cBodies[i];
-      //centers the postion of the bodies relative to the canvas screen
+      //centers the position of the bodies relative to the canvas screen
       const x = width / 2 + thisBody.x * scale;
       const y = height / 2 + thisBody.y * scale;
       thisBody.cobject.drawObj(x, y);
