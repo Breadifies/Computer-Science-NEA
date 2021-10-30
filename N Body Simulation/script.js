@@ -19,10 +19,10 @@ const cBodies = [
 ]
 
 const UGC = 39.5;
-const dt = 0.008; 
+const dt = 0.008; //measured in years
 const softeningConstant = 0.15;
 const scale = 70;
-const trailLimit = 35;
+const trailLimit = 400;
 const velocityDragMult = 35;
 
 
@@ -207,4 +207,7 @@ canvas.addEventListener("mouseup",
   };
   
 animate();
+
+document.getElementByID(paramChildBtn).style.display = "none";
+
 
