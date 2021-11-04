@@ -8,6 +8,7 @@ window.addEventListener("resize", function(){ //function to resize canvas when y
   canvas.height = window.innerHeight;
 })
 
+
 //a scale reference is made when basing upon what the values of the cObjects should be, in this scenarion, m is equal to 1 solar mass
 const cBodies = [
 {m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62,radius: 5,color:"0, 12, 153",}, //mercury
@@ -22,7 +23,7 @@ const UGC = 39.5;
 const dt = 0.008; //measured in years
 const softeningConstant = 0.15;
 const scale = 70;
-const trailLimit = 400;
+const trailLimit = 100;
 const velocityDragMult = 35;
 
 
@@ -181,7 +182,6 @@ canvas.addEventListener("mouseup",
 //MOUSE INTERACTION
 
 
-
 //animates and iteratively draws the objects visually on the canvas
   const animate = function(){
     nBodyInstance.updatePos().updateAccel().updateVel();//Accel update runs before Velocity
@@ -207,7 +207,4 @@ canvas.addEventListener("mouseup",
   };
   
 animate();
-
-document.getElementByID(paramChildBtn).style.display = "none";
-
 
