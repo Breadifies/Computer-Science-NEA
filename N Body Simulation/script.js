@@ -19,11 +19,11 @@ const cBodies = [
 {m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",} //sun
 ]
 
-const UGC = 39.5;
+let UGC = 35;
 const dt = 0.008; //measured in years
 const softeningConstant = 0.15;
 const scale = 70;
-const trailLimit = 100;
+const trailLimit = 45;
 const velocityDragMult = 35;
 
 
