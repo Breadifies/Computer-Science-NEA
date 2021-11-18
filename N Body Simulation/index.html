@@ -12,7 +12,7 @@
     <canvas>
     </canvas>
     <button class="paramBtn" id="clearBtn">Clear Simulation</button>
-    <button class="paramBtn" id="timeBtn">Time Dilation</button> 
+    <button onclick="showBtnTime()" class="paramBtn" id="timeBtn">Time Dilation</button> 
     <button onclick="showBtnPhysics()"class="paramBtn" id="physicsBtn">Physics</button> 
     <button class="paramBtn" id="objectTopBtn">ObjectTop</button> 
     <button class="paramBtn" id="objectBotBtn">ObjectBottom</button> 
@@ -24,12 +24,13 @@
     <button class="zoom" id="zoomOutBtn">+</button>
     <button class="zoom" id="zoomInBtn">-</button>
     <div id="objTypeLine"></div>
-    <div class="paramChildBtn" id="timeChild"></div>
-
-
+    <div class="paramChildBtn" id="timeChild">
+        
+    </div>
+        
     <div class="paramChildBtn" id="physicsChild">
         <div>Physics Manipulation</div>
-        <input type="text" id="ugcChange" style="width: 50px">
+        <input type="number" min="-750" max="750"  id="ugcChange" style="width: 50px">
         <span>
             <button id="updateUGC">Update</button>
         </span>

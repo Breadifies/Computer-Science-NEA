@@ -9,14 +9,23 @@ function showBtnPhysics() {//displays or removes the relevant div element using 
 
 
 
-
 document.querySelector("#ugcChange").value = nBodyInstance.UGC;
 
 document.querySelector("#updateUGC").addEventListener("click",function() {
+  if ((document.querySelector("#ugcChange").value) >= 750){
+    document.querySelector("#ugcChange").value = 750;
+  }else if ((document.querySelector("#ugcChange").value) <= -750){
+    document.querySelector("#ugcChange").value = -750;
+  }
+  //validation check for in range
   nBodyInstance.UGC = document.querySelector("#ugcChange").value;
   //replaces the value of UGC with what is in the textbox
 });
 
+
 function slideUpdate(value) {
   document.querySelector("#ugcChange").value = value;
 }
+
+//////////////////////////
+
