@@ -12,7 +12,7 @@ function showBtnTopObj() {//displays or removes the relevant div element using a
 document.querySelector("#trailToggle").addEventListener("click", function
 (){
   if (trailLimit == 0){
-    trailLimit = 35;
+    trailLimit = trailChange;
   }else if (trailLimit != 0){
     trailLimit = 0; 
   }
