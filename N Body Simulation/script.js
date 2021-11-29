@@ -105,11 +105,9 @@ class cObject { //class for construction of a cObject
 
   storeTrail(x, y){
     this.trailLine.push({x, y});//pushes x and y values into trailLine element, storing values of where the object was and currently is
-
     if (this.trailLine.length > trailLimit){
       this.trailLine.shift(); //shifts all elements in array to the right, deleting the oldest position of the cObject
       this.trailLine.length = 0;
-
     }
   }
   drawTrail(x, y){//draws the actual trail using lines. Pre existing code used smaller fading circles but increasing tail length lagged the system much more. Lines allow for more ease of following trajectory and lessens load on device
