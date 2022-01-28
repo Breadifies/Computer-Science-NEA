@@ -13,10 +13,11 @@ window.addEventListener("resize", function(){ //function to resize canvas when y
 const cBodies = [
 {m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62,radius: 5,color:"0, 12, 153",}, //mercury
 {m: 2.45e-6,x: -0.168,y: 0.698,vx: 7.21,vy: 1.77,radius: 5.8,color:"100, 240, 150",}, //venus
-{m: 3e-6,x: 0.649,y: 0.748,vx: -4.85,vy: 4.97,radius: 6.2,color:"210, 200, 24",}, //earth
+{m: 3e-6,x: -0.479,y: 0.867,vx: -5.62,vy: -3.032,radius: 6.2,color:"210, 200, 24",}, //earth
 {m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 6.25,color:"230, 80, 40",}, //mars
-{m: 9.54e-4,x: 4.41,y: -2.35,vx: 1.263,vy: 2.56,radius: 12,color:"200, 150, 20",}, //jupiter
-{m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",} //sun
+{m: 9.54e-4,x: 4.41,y: -2.35,vx: 1.263,vy: 2.56,radius: 12,color:"200, 110, 200",}, //jupiter
+{m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",}, //sun
+{m:3.69e-8,x:-0.48,y: 0.869, vx: -5.771, vy: -3.170, radius: 2, color:"70, 10, 30",} //moon
 ]
 
 let UGC = 35;
@@ -24,7 +25,7 @@ const dt = 0.008; //measured in years
 const softeningConstant = 0.15;
 const scale = 70;
 let trailLimit = 0;
-let trailChange = 35;
+let trailChange = 30;
 const velocityDragMult = 18;
 
 
@@ -73,9 +74,8 @@ class nBodySimulation {
           const otherBody = this.cBodies[j];
           const dx = otherBody.x - thisBody.x;
           const dy = otherBody.y - thisBody.y;
-          //sum of the distances between the objects squared
-          const distSq = dx * dx + dy * dy;
-          const force = (this.UGC * otherBody.m) / (distSq * Math.sqrt(distSq + this.softeningConstant));//fun experiment, try puttng /distSq after this.softeningConstant
+          let distSq = dx * dx + dy * dy;
+          let force = (this.UGC * otherBody.m) / (distSq * Math.sqrt(distSq + this.softeningConstant));//fun experiment, try puttng /distSq after this.softeningConstant
           //Law of gravitation for one body's force acting on another, softening constant exists to prevent error of infintesimaly small distances as the objects are treated as particles rather than objects with pass
           ax += dx * force;
           ay += dy * force;
