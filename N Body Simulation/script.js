@@ -29,6 +29,14 @@ let trailChange = 30;
 const velocityDragMult = 18;
 
 
+
+function getDistance(x1, y1, x2, y2) { //calculates distance between two points, more accurate than acceleration calculation
+  let xDistance = x2 - x1;
+  let yDistance = y2 - y1;
+  return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+}
+
+
 //nBodySimulation creates an isolated instance of an n body simulation
 class nBodySimulation {
 
@@ -79,15 +87,18 @@ class nBodySimulation {
           //Law of gravitation for one body's force acting on another, softening constant exists to prevent error of infintesimaly small distances as the objects are treated as particles rather than objects with pass
           ax += dx * force;
           ay += dy * force;
+
           }
         }
       thisBody.ax = ax;
       thisBody.ay = ay;
+      
       }
     return this;
     }
-
   }
+
+
 
 class cObject { //class for construction of a cObject 
   constructor(c, radius, color) {
@@ -195,19 +206,31 @@ canvas.addEventListener("mouseup",
 //MOUSE INTERACTION
 
 
+
+
+
 //animates and iteratively draws the objects visually on the canvas
   const animate = function(){
     nBodyInstance.updatePos().updateAccel().updateVel();//Accel update runs before Velocity
     c.clearRect(0, 0, width, height);  //clears the canvas screen of any objects (to input new positions of objects)
     const cBodiesLen = nBodyInstance.cBodies.length;
-    for (let i = 0; i < cBodiesLen; i++) {
+    for (let i = 0; i < cBodiesLen; i++){
       const thisBody = nBodyInstance.cBodies[i];
       //centers the position of the bodies relative to the canvas screen
       const x = width / 2 + thisBody.x * scale;
       const y = height / 2 + thisBody.y * scale;
       thisBody.cobject.drawObj(x, y);
       thisBody.cobject.drawTrail(x, y);
-
+      for (let j = 0; j < cBodiesLen; j++){
+        if (i !== j){
+        const otherBody = nBodyInstance.cBodies[j];
+        distCalc = getDistance(thisBody.x, thisBody.y, otherBody.x, otherBody.y);
+        if (distCalc < thisBody.cobject.radius + otherBody.cobject.radius)  {
+        console.log(distCalc);
+        thisBody.cobject.color = "50, 50, 50";
+        }
+        }
+      }   
     }
     if (dragging){
       c.beginPath();
