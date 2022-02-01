@@ -16,8 +16,7 @@ const cBodies = [
 {m: 3e-6,x: -0.479,y: 0.867,vx: -5.62,vy: -3.032,radius: 6.2,color:"210, 200, 24",}, //earth
 {m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 6.25,color:"230, 80, 40",}, //mars
 {m: 9.54e-4,x: 4.41,y: -2.35,vx: 1.263,vy: 2.56,radius: 12,color:"200, 110, 200",}, //jupiter
-{m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",}, //sun
-{m:3.69e-8,x:-0.48,y: 0.869, vx: -5.771, vy: -3.170, radius: 2, color:"70, 10, 30",} //moon
+{m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",} //sun
 ]
 
 let UGC = 35;
@@ -27,7 +26,7 @@ const scale = 70;
 let trailLimit = 0;
 let trailChange = 30;
 const velocityDragMult = 18;
-
+let collisionMode = false;
 
 
 function getDistance(x1, y1, x2, y2) { //calculates distance between two points, more accurate than acceleration calculation
@@ -87,7 +86,17 @@ class nBodySimulation {
           //Law of gravitation for one body's force acting on another, softening constant exists to prevent error of infintesimaly small distances as the objects are treated as particles rather than objects with pass
           ax += dx * force;
           ay += dy * force;
-
+          if (collisionMode == true){
+            let thisX = thisBody.x*scale + width/2;
+            let thisY = thisBody.y*scale + width/2;
+            let otherX = otherBody.x*scale + width/2;
+            let otherY = otherBody.y*scale + width/2;
+            let distCalc = getDistance(thisX, thisY, otherX, otherY);
+            if (distCalc < thisBody.cobject.radius + otherBody.cobject.radius){
+              thisBody.cobject.color = 
+              Math.floor((Math.random()*255)+1)+", "+Math.floor((Math.random()*255)+1)+", "+Math.floor((Math.random()*255)+1);
+              }
+            }
           }
         }
       thisBody.ax = ax;
@@ -220,17 +229,7 @@ canvas.addEventListener("mouseup",
       const x = width / 2 + thisBody.x * scale;
       const y = height / 2 + thisBody.y * scale;
       thisBody.cobject.drawObj(x, y);
-      thisBody.cobject.drawTrail(x, y);
-      for (let j = 0; j < cBodiesLen; j++){
-        if (i !== j){
-        const otherBody = nBodyInstance.cBodies[j];
-        distCalc = getDistance(thisBody.x, thisBody.y, otherBody.x, otherBody.y);
-        if (distCalc < thisBody.cobject.radius + otherBody.cobject.radius)  {
-        console.log(distCalc);
-        thisBody.cobject.color = "50, 50, 50";
-        }
-        }
-      }   
+      thisBody.cobject.drawTrail(x, y);  
     }
     if (dragging){
       c.beginPath();

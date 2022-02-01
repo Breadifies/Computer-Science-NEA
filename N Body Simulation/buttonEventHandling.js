@@ -18,6 +18,13 @@ document.querySelector("#trailToggle").addEventListener("click", function
   }
 });
 
+document.querySelector("#collisionToggle").addEventListener("click", function(){
+  if (collisionMode == false){
+    collisionMode = true;
+  }else{
+    collisionMode = false;
+  }
+});
 
 
 ///////////////////////////////////////////// OBJECT BOTTOM
