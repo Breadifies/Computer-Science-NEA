@@ -46,7 +46,7 @@ document.querySelector("#updateMass").addEventListener("click", function(){
   }else if ((document.querySelector("#massChange").value) <= 0){
     document.querySelector("#massChange").value = 1;
   }
-  dragMass = document.querySelector("#massChange").value;
+  dragMass = parseInt(document.querySelector("#massChange").value);
 });
 
 document.querySelector("#sizeChange").value = 5;
@@ -122,5 +122,31 @@ function clearSim() {
   //clears array instance by assigning it an empty array
 }
 
+///////////////////////////////////////// PRESET CELESTIAL OBJECTS
 /////////////////////////////////////////
-/////////////////////////////////////////
+
+presetMass = 0;
+presetSize = 0;
+presetColor = 0;
+
+function planetBdy() {
+  if (presetSelect == false){
+  presetSelect = true;
+  presetMass = 0.0000005;
+  presetSize = 7.5;
+  presetColor = "100,100,100";
+  }else{
+    presetSelect = false;
+  }
+}
+
+function starBdy() {
+  if (presetSelect == false){
+  presetSelect = true;
+  presetMass = 1;
+  presetSize = 15;
+  presetColor = "249,215,28";
+  }else{
+    presetSelect = false;
+  }
+}

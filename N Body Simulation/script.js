@@ -11,10 +11,10 @@ window.addEventListener("resize", function(){ //function to resize canvas when y
 
 //a scale reference is made when basing upon what the values of the cObjects should be, in this scenarion, m is equal to 1 solar mass
 const cBodies = [
-{m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62,radius: 5,color:"0, 12, 153",}, //mercury
+{m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62,radius: 5,color:"0  ,  12, 153",}, //mercury
 {m: 2.45e-6,x: -0.168,y: 0.698,vx: 7.21,vy: 1.77,radius: 5.8,color:"100, 240, 150",}, //venus
-{m: 3e-6,x: -0.479,y: 0.867,vx: -5.62,vy: -3.032,radius: 6.2,color:"210, 200, 24",}, //earth
-{m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 6.25,color:"230, 80, 40",}, //mars
+{m: 3e-6,x: -0.479,y: 0.867,vx: -5.62,vy: -3.032,radius: 6.2,color:"210, 200,  24",}, //earth
+{m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 6.25,color:"230,  80,  40",}, //mars
 {m: 9.54e-4,x: 4.41,y: -2.35,vx: 1.263,vy: 2.56,radius: 12,color:"200, 110, 200",}, //jupiter
 {m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",} //sun
 ]
@@ -28,12 +28,18 @@ let trailChange = 30;
 const velocityDragMult = 18;
 let collisionMode = false;
 
-
+//MISCEALLANEOUS FUNCTIONS
 function getDistance(x1, y1, x2, y2) { //calculates distance between two points, more accurate than acceleration calculation
   let xDistance = x2 - x1;
   let yDistance = y2 - y1;
   return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 }
+
+function getRndInt(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+
 
 
 //nBodySimulation creates an isolated instance of an n body simulation
@@ -51,41 +57,38 @@ class nBodySimulation {
     const cBodiesLen = this.cBodies.length;
     //for loop for every element in cBodies array
     for (let i = 0; i < cBodiesLen; i++) {
-      const thisBody = this.cBodies[i];
-      thisBody.x += thisBody.vx * this.dt; //v = d/t
-      thisBody.y += thisBody.vy * this.dt;
+      if (this.cBodies[i] !== "empty"){
+        const thisBody = this.cBodies[i];
+        thisBody.x += thisBody.vx * this.dt; //v = d/t
+        thisBody.y += thisBody.vy * this.dt;
+      }
     }
      return this;
   }
   
   updateVel() { //separate function to update cObject velocities
     const cBodiesLen = this.cBodies.length;
-    for (let i = 0; i < cBodiesLen; i++) {
-      const thisBody = this.cBodies[i];
-      thisBody.vx += thisBody.ax * this.dt; //a = v/t
-      thisBody.vy += thisBody.ay * this.dt;
+    for (let i = 0; i <cBodiesLen; i++) {
+      if (this.cBodies[i] !== "empty" ){
+        const thisBody = this.cBodies[i];
+        thisBody.vx += thisBody.ax * this.dt; //a = v/t
+        thisBody.vy += thisBody.ay * this.dt;
+      }
     }
   }
   
   updateAccel() { //acceleration update utlising law of gravitation
-    const cBodiesLen = this.cBodies.length;
+    let cBodiesLen = this.cBodies.length;
     for (let i = 0; i < cBodiesLen; i++) {
       //initialising acceleration which is reset to 0 after loop after its calculation has been passed onto velocity.
       let ax = 0;
       let ay = 0;
-      //defining this body and the body acting on it
+      //defining this body and the body acting on it#
       const thisBody = this.cBodies[i];
       //nested for loop checks 1 object against all other objects then repeats for every other object
       for (let j = 0; j < cBodiesLen; j++) {
-        if (i !== j) { //more concise than (thisBody != otherBody) prevents checking the same object against itself
+        if (i !== j && this.cBodies[j] !== "empty" && this.cBodies[i] !== "empty") { //more concise than (thisBody != otherBody) prevents checking the same object against itself
           const otherBody = this.cBodies[j];
-          const dx = otherBody.x - thisBody.x;
-          const dy = otherBody.y - thisBody.y;
-          let distSq = dx * dx + dy * dy;
-          let force = (this.UGC * otherBody.m) / (distSq * Math.sqrt(distSq + this.softeningConstant));//fun experiment, try puttng /distSq after this.softeningConstant
-          //Law of gravitation for one body's force acting on another, softening constant exists to prevent error of infintesimaly small distances as the objects are treated as particles rather than objects with pass
-          ax += dx * force;
-          ay += dy * force;
           if (collisionMode == true){
             let thisX = thisBody.x*scale + width/2;
             let thisY = thisBody.y*scale + width/2;
@@ -93,15 +96,27 @@ class nBodySimulation {
             let otherY = otherBody.y*scale + width/2;
             let distCalc = getDistance(thisX, thisY, otherX, otherY);
             if (distCalc < thisBody.cobject.radius + otherBody.cobject.radius){
-              thisBody.cobject.color = 
-              Math.floor((Math.random()*255)+1)+", "+Math.floor((Math.random()*255)+1)+", "+Math.floor((Math.random()*255)+1);
+              if (thisBody.m >= otherBody.m){
+                console.log(thisBody.m);
+                console.log(otherBody.m);
+                thisBody.m += otherBody.m;
+                this.cBodies[j] = "empty";
+                }
               }
             }
+          const dx = otherBody.x - thisBody.x;
+          const dy = otherBody.y - thisBody.y;
+          let distSq = dx * dx + dy * dy;
+          let force = (this.UGC * otherBody.m) / (distSq * Math.sqrt(distSq + this.softeningConstant));//fun experiment, try putting /distSq after this.softeningConstant
+          //Law of gravitation for one body's force acting on another, softening constant exists to prevent error of infintesimaly small distances as the objects are treated as particles rather than objects with pass
+          ax += dx * force;
+          ay += dy * force;
           }
         }
-      thisBody.ax = ax;
-      thisBody.ay = ay;
-      
+      if (thisBody !== "empty"){
+        thisBody.ax = ax;
+        thisBody.ay = ay;
+        }
       }
     return this;
     }
@@ -190,8 +205,11 @@ canvas.addEventListener("mousemove",
 //////////////MOUSE OBJECT VARIABLES
 //////////////
 
+
 let dragMass = 0.005;
 let dragSize = 5;
+let dragColor = "255, 255, 255";
+let presetSelect = false;
 
 canvas.addEventListener("mouseup",
   function(e) {
@@ -200,10 +218,17 @@ canvas.addEventListener("mouseup",
     const vx = -(e.clientX - mousePressX) / velocityDragMult;
     const vy = -(e.clientY - mousePressY) / velocityDragMult;
     //negative to simulate slingshot-like input feedback
-
+    if (presetSelect == true){
+      dragMass = presetMass;
+      dragSize = presetSize;
+      dragColor = presetColor;
+    }else{
+      dragMass = 0.005;
+      dragSize = 5;
+      dragColor = "255, 255, 255";
+    }
     nBodyInstance.cBodies.push({
-      m: dragMass, x, y, vx, vy, cobject: new cObject(c, dragSize, "255, 255, 255"),
-      m: dragMass, x, y, vx, vy, cobject: new cObject(c, dragSize, "255, 255, 255")
+      m: dragMass, x, y, vx, vy, cobject: new cObject(c, parseInt(dragSize), dragColor)
     });
     dragging = false;
   //placeholder cBody which pushes a pre determined object into the simulation at the mouse's position.
@@ -224,12 +249,14 @@ canvas.addEventListener("mouseup",
     c.clearRect(0, 0, width, height);  //clears the canvas screen of any objects (to input new positions of objects)
     const cBodiesLen = nBodyInstance.cBodies.length;
     for (let i = 0; i < cBodiesLen; i++){
-      const thisBody = nBodyInstance.cBodies[i];
-      //centers the position of the bodies relative to the canvas screen
-      const x = width / 2 + thisBody.x * scale;
-      const y = height / 2 + thisBody.y * scale;
-      thisBody.cobject.drawObj(x, y);
-      thisBody.cobject.drawTrail(x, y);  
+      if (nBodyInstance.cBodies[i] !== "empty"){
+        const thisBody = nBodyInstance.cBodies[i];
+        //centers the position of the bodies relative to the canvas screen
+        const x = width / 2 + thisBody.x * scale;
+        const y = height / 2 + thisBody.y * scale;
+        thisBody.cobject.drawObj(x, y);
+        thisBody.cobject.drawTrail(x, y);  
+      }
     }
     if (dragging){
       c.beginPath();
