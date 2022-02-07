@@ -52,6 +52,7 @@ body {
     height: 110px;
     top: 179px;
 }
+
 .switch {
     position: relative;
     display: inline-block;/*like inlineblock but width and height can be set */

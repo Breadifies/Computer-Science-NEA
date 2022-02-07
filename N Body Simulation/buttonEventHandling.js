@@ -129,24 +129,78 @@ presetMass = 0;
 presetSize = 0;
 presetColor = 0;
 
+let planetBodyCheck = false;
+let solarBodyCheck = false;
+let asteroidBodyCheck = false;
+
+function presetReset(){
+  planetBodyCheck = false;
+  solarBodyCheck = false;
+  asteroidBodyCheck = false;
+}
+
 function planetBdy() {
-  if (presetSelect == false){
-  presetSelect = true;
-  presetMass = 0.0000005;
-  presetSize = 7.5;
-  presetColor = "100,100,100";
-  }else{
+  if (planetBodyCheck == false && presetSelect == false){//if no body has been selected and this body specifically hasnt been clicked
+    presetReset();
+    planetBodyCheck = true;
+    presetSelect = true;
+  }else if (planetBodyCheck == false && presetSelect == true){// if a body has been selected but not this one
+    presetReset();
+    planetBodyCheck = true;
+  }else if (planetBodyCheck == true && presetSelect == true){// if this body has been selected and it has been clicked once
+    presetReset();
     presetSelect = false;
+  }   
+}
+
+function solarBdy() {
+  if (solarBodyCheck == false && presetSelect == false){
+    presetReset();
+    solarBodyCheck = true;
+    presetSelect = true;
+  }else if (solarBodyCheck == false && presetSelect == true){
+    presetReset();
+    solarBodyCheck = true;
+  }else if (solarBodyCheck == true && presetSelect == true){
+    presetReset();
+    presetSelect = false;
+  }   
+}
+
+function asteroidBdy() {
+  if (asteroidBodyCheck == false && presetSelect == false){
+    presetReset();
+    asteroidBodyCheck = true;
+    presetSelect = true;
+  }else if (asteroidBodyCheck == false && presetSelect == true){
+    presetReset();
+    asteroidBodyCheck = true;
+  }else if (asteroidBodyCheck == true && presetSelect == true){
+    presetReset();
+    presetSelect = false;
+  }   
+}
+
+
+
+
+function setPreset(){
+  if (planetBodyCheck == true){
+    presetMass = 0.0000005;
+    presetSize = 7.5;
+    presetColor = "100,100,100";
+  }else if (solarBodyCheck == true){
+    presetMass = 1;
+    presetSize = 15;
+    presetColor = "249,215,28";
+  }else if (asteroidBodyCheck == true){
+    presetMass = 0.00000000000003;
+    presetSize = 0.9;
+    presetColor = "240, 240, 235";
   }
 }
 
-function starBdy() {
-  if (presetSelect == false){
-  presetSelect = true;
-  presetMass = 1;
-  presetSize = 15;
-  presetColor = "249,215,28";
-  }else{
-    presetSelect = false;
-  }
-}
+
+
+
+

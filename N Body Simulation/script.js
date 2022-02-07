@@ -205,7 +205,9 @@ canvas.addEventListener("mousemove",
 //////////////MOUSE OBJECT VARIABLES
 //////////////
 
-
+let dMass = 0.005;
+let dSize = 5;
+let dColor = "255, 255, 255";
 let dragMass = 0.005;
 let dragSize = 5;
 let dragColor = "255, 255, 255";
@@ -219,16 +221,18 @@ canvas.addEventListener("mouseup",
     const vy = -(e.clientY - mousePressY) / velocityDragMult;
     //negative to simulate slingshot-like input feedback
     if (presetSelect == true){
-      dragMass = presetMass;
-      dragSize = presetSize;
-      dragColor = presetColor;
+      setPreset();
+      dMass = presetMass;
+      dSize = presetSize;
+      dColor = presetColor;
+      console.log(dSize);
     }else{
-      dragMass = 0.005;
-      dragSize = 5;
-      dragColor = "255, 255, 255";
+      dMass = dragMass;
+      dSize = dragSize;
+      dColor = dragColor;
     }
     nBodyInstance.cBodies.push({
-      m: dragMass, x, y, vx, vy, cobject: new cObject(c, parseInt(dragSize), dragColor)
+      m: dMass, x, y, vx, vy, cobject: new cObject(c, parseInt(dSize), dColor)
     });
     dragging = false;
   //placeholder cBody which pushes a pre determined object into the simulation at the mouse's position.
