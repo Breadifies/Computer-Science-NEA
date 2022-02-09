@@ -205,20 +205,19 @@ canvas.addEventListener("mousemove",
 //////////////MOUSE OBJECT VARIABLES
 //////////////
 
-let dMass = 0.005;
+let dMass = 0.005; //d is used for the actual value that is passed into the instantiation
 let dSize = 5;
 let dColor = "255, 255, 255";
-let dragMass = 0.005;
+let dragMass = 0.005; //drag is the value chosen via manual input using the parameters which d will take in provided checks for presets have been done
 let dragSize = 5;
 let dragColor = "255, 255, 255";
-let presetSelect = false;
 
 canvas.addEventListener("mouseup",
   function(e) {
-    const x = (mousePressX - width / 2) / scale;
-    const y = (mousePressY - height / 2) / scale;
-    const vx = -(e.clientX - mousePressX) / velocityDragMult;
-    const vy = -(e.clientY - mousePressY) / velocityDragMult;
+    let x = (mousePressX - width / 2) / scale;
+    let y = (mousePressY - height / 2) / scale;
+    let vx = -(e.clientX - mousePressX) / velocityDragMult;
+    let vy = -(e.clientY - mousePressY) / velocityDragMult;
     //negative to simulate slingshot-like input feedback
     if (presetSelect == true){
       setPreset();
@@ -231,9 +230,30 @@ canvas.addEventListener("mouseup",
       dSize = dragSize;
       dColor = dragColor;
     }
-    nBodyInstance.cBodies.push({
-      m: dMass, x, y, vx, vy, cobject: new cObject(c, parseInt(dSize), dColor)
-    });
+    if (asteroidBodyCheck == true){ //unique check for asteroidBdy so that several objects are placed in an area instead of just one object
+      nBodyInstance.cBodies.push({
+        m: dMass, x, y, vx, vy, cobject: new cObject(c, parseFloat(dSize), dColor)});
+        x=x+0.05;
+        y=y+0.05;
+      nBodyInstance.cBodies.push({
+        m: dMass, x, y, vx, vy, cobject: new cObject(c, parseFloat(dSize), dColor)});
+        x=x-0.03;
+        y=y-0.07;
+      nBodyInstance.cBodies.push({
+        m: dMass, x, y, vx, vy, cobject: new cObject(c, parseFloat(dSize), dColor)});
+        x=x-0.1;
+        y=y+0.053;
+      nBodyInstance.cBodies.push({
+        m: dMass, x, y, vx, vy, cobject: new cObject(c, parseFloat(dSize), dColor)});
+        x=x+0.3;
+        y=y-0.08;
+      nBodyInstance.cBodies.push({
+        m: dMass, x, y, vx, vy, cobject: new cObject(c, parseFloat(dSize), dColor)});
+    }else{
+      nBodyInstance.cBodies.push({
+        m: dMass, x, y, vx, vy, cobject: new cObject(c, parseFloat(dSize), dColor)});
+    }
+
     dragging = false;
   //placeholder cBody which pushes a pre determined object into the simulation at the mouse's position.
     },
@@ -273,4 +293,5 @@ canvas.addEventListener("mouseup",
   };
   
 animate();
+
 
