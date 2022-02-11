@@ -17,12 +17,15 @@ const cBodies = [
 {m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 6.25,color:"230,  80,  40",}, //mars
 {m: 9.54e-4,x: 4.41,y: -2.35,vx: 1.263,vy: 2.56,radius: 12,color:"200, 110, 200",}, //jupiter
 {m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",} //sun
+// { m:1, x:0, y:0, vx:-4.82, vy:4.82, radius: 7, color:"255, 0, 0",}, //3 body pseudo stable orbit (figure 8)
+// { m:1, x:1.5, y:0, vx:2.41, vy:-2.41, radius: 7, color: "0, 255, 0",},
+// { m:1, x:-1.5, y:0, vx:2.41, vy:-2.41, radius: 7, color: "0, 0, 255",}
 ]
 
-let UGC = 35;
-const dt = 0.008; //measured in years
+let UGC = 39.5; // universal gravitational constant 39.5
+const dt = 0.008; //measured in years 0.008
 const softeningConstant = 0.15;
-const scale = 70;
+const scale = 70;//scale 70
 let trailLimit = 0;
 let trailChange = 30;
 const velocityDragMult = 18;
