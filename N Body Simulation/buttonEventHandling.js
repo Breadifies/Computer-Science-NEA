@@ -71,7 +71,6 @@ function hexToRgb(hex) { //converts hex to rgb
   var arrByte = new Uint8Array(arrBuff);
   return arrByte[1] + "," + arrByte[2] + "," + arrByte[3]; //concatenation
 }
-console.log(hexToRgb("444444"));
 
 
 
@@ -137,6 +136,8 @@ function clearSim() {
   nBodyInstance.cBodies = []; 
   //clears array instance by assigning it an empty array
 }
+
+
 
 ///////////////////////////////////////// PRESET CELESTIAL OBJECTS
 /////////////////////////////////////////

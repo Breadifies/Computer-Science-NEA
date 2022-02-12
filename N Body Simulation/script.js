@@ -1,13 +1,14 @@
 const canvas = document.querySelector("canvas"); //c stands for context
 const c = canvas.getContext("2d");
-const width = (canvas.width = window.innerWidth);
-const height = (canvas.height = window.innerHeight);
-
+let width = (canvas.width = window.innerWidth);
+let height = (canvas.height = window.innerHeight);
 window.addEventListener("resize", function(){ //function to resize canvas when you resize window
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  width = canvas.width; //resizes the width and heights of the canvas whenever that changes
+  height = canvas.height;
+  
 })
-
 
 //a scale reference is made when basing upon what the values of the cObjects should be, in this scenarion, m is equal to 1 solar mass
 const cBodies = [
@@ -90,8 +91,8 @@ class nBodySimulation {
       const thisBody = this.cBodies[i];
       //nested for loop checks 1 object against all other objects then repeats for every other object
       for (let j = 0; j < cBodiesLen; j++) {
-        if (i !== j && this.cBodies[j] !== "empty" && this.cBodies[i] !== "empty") { //more concise than (thisBody != otherBody) prevents checking the same object against itself
-          const otherBody = this.cBodies[j];
+        const otherBody = this.cBodies[j];
+        if (i !== j && this.cBodies[j] !== "empty" && this.cBodies[i] !== "empty" && thisBody.x != otherBody.x) { //more concise than (thisBody != otherBody) prevents checking the same object against itself
           if (collisionMode == true){
             let thisX = thisBody.x*scale + width/2;
             let thisY = thisBody.y*scale + width/2;
@@ -100,8 +101,6 @@ class nBodySimulation {
             let distCalc = getDistance(thisX, thisY, otherX, otherY);
             if (distCalc < thisBody.cobject.radius + otherBody.cobject.radius){
               if (thisBody.m >= otherBody.m){
-                console.log(thisBody.m);
-                console.log(otherBody.m);
                 thisBody.m += otherBody.m;
                 this.cBodies[j] = "empty";
                 }
@@ -190,14 +189,14 @@ let dragging = false;
 
 canvas.addEventListener("mousedown", 
  function(e) {
+    console.log(mousePressX);
     mousePressX = e.clientX; //taken directly frrom the window's data on the relative mouse parameters for x and y values 
     mousePressY = e.clientY;
     dragging = true;//mousedown vs mouseup discerns the positions and distances that are calculated
   },
   false
 );
-
-canvas.addEventListener("mousemove", 
+canvas.addEventListener("mousemove",
   function(e) {
     currentMouseX = e.clientX;
     currentMouseY = e.clientY;
@@ -227,7 +226,6 @@ canvas.addEventListener("mouseup",
       dMass = presetMass;
       dSize = presetSize;
       dColor = presetColor;
-      console.log(dSize);
     }else{
       dMass = dragMass;
       dSize = dragSize;
