@@ -218,6 +218,67 @@ function setPreset(){
 }
 
 
+///////////////////////////////////////// PRESET SCENARIOS
+/////////////////////////////////////////
 
+function showBtnScenario() {//displays or removes the relevant div element using a button 
+  let x = document.querySelector(".scenarioBtn");
+  if (getComputedStyle(x).display === "none") {//changes the CSS style of the block depending on what it is currently
+    document.querySelector("#solarSysBtn").style.display = "block";
+    document.querySelector("#binarySysBtn").style.display = "block";
+    document.querySelector("#unstableSysBtn").style.display = "block";
+    document.querySelector("#eightSysBtn").style.display = "block";
+    document.querySelector("#lagrSysBtn").style.display = "block";
+  }else{
+    document.querySelector("#solarSysBtn").style.display = "none";
+    document.querySelector("#binarySysBtn").style.display = "none";
+    document.querySelector("#unstableSysBtn").style.display = "none";
+    document.querySelector("#eightSysBtn").style.display = "none";
+    document.querySelector("#lagrSysBtn").style.display = "none";
+  }
+}
 
+function createSolar() { //solar system orbit out to Jupiter
+  clearSim();
+  nBodyInstance.cBodies.push({m: 1.66e-7,x: -0.346,y: -0.272,vx: 4.251,vy: -7.62, cobject: new cObject(c, parseFloat(5), "0, 12, 153",)});
+  nBodyInstance.cBodies.push({m: 2.45e-6,x: -0.168,y: 0.698,vx: 7.21,vy: 1.77, cobject: new cObject(c, parseFloat(5.8), "100, 240, 150",)});
+  nBodyInstance.cBodies.push({m: 3e-6,x: -0.479,y: 0.867,vx: -5.62,vy: -3.032, cobject: new cObject(c, parseFloat(6.2), "210, 200, 24",)});
+  nBodyInstance.cBodies.push({m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51, cobject: new cObject(c, parseFloat(6.25), "230, 80, 40",)});
+  nBodyInstance.cBodies.push({m: 9.54e-4,x: 4.41,y: -2.35,vx: 1.263,vy: 2.56, cobject: new cObject(c, parseFloat(12), "200, 110, 200",)});
+  nBodyInstance.cBodies.push({m: 1, x: 0, y: 0, vx: 0, vy: 0, cobject: new cObject(c, parseFloat(20), "249, 215, 28",)});
+}
 
+function createBinary() { //binary star system
+  clearSim();
+  nBodyInstance.cBodies.push({m:1, x:0, y:1, vx:-3.05, vy:0, cobject: new cObject(c, parseFloat(9.5), "125, 249, 255",)});
+  nBodyInstance.cBodies.push({ m:1, x:0, y:-1, vx:3.05, vy:0, cobject: new cObject(c, parseFloat(9.5), "125, 249, 255",)});
+
+}
+
+function createUnstable() { //demonstrates instability of system
+  clearSim();
+  nBodyInstance.cBodies.push({m:1, x:0, y:-2, vx:-0, vy:0, cobject: new cObject(c, parseFloat(7), "230, 100, 100",)});
+  nBodyInstance.cBodies.push({m:1, x:1.732, y:1, vx:0, vy:0, cobject: new cObject(c, parseFloat(7), "230, 100, 100",)});
+  nBodyInstance.cBodies.push({m:1, x:-1.732, y:1, vx:0, vy:0, cobject: new cObject(c, parseFloat(7), "230, 100, 100",)});
+ 
+}
+
+let normal = 2.5; //math to calculate stable orbit
+let normalX = Math.sin(1/6 * Math.PI)* normal;
+let normalY = Math.cos(1/6 * Math.PI)* normal;
+let length = 2.5;
+let lengthX = Math.sin(1/3 * Math.PI)* length;
+let lengthY = Math.cos(1/3 * Math.PI)* length;
+function createLagrange(){ //3 body example (easily disrupted)
+  clearSim();
+  nBodyInstance.cBodies.push({m:1, x:0, y:-length, vx:-normalX, vy:normalY, cobject: new cObject(c, parseFloat(7), "255, 0, 0",)});
+  nBodyInstance.cBodies.push({m:1, x:lengthX, y:lengthY, vx:-normalX, vy:-normalY, cobject: new cObject(c, parseFloat(7), "255, 0, 0",)});
+  nBodyInstance.cBodies.push({m:1, x:-lengthX, y:lengthY, vx:normal, vy:0, cobject: new cObject(c, parseFloat(7), "255, 0, 0",)});
+}
+
+function createEight() { //3 body pesudo stable orbit (figure 8)
+  clearSim();
+  nBodyInstance.cBodies.push({m:1, x:0, y:0, vx:-4.82, vy:4.82, cobject: new cObject(c, parseFloat(7), "255, 0, 0",)});
+  nBodyInstance.cBodies.push({ m:1, x:1.5, y:0, vx:2.41, vy:-2.41, cobject: new cObject(c, parseFloat(7), "0, 255, 0",)});
+  nBodyInstance.cBodies.push({m:1, x:-1.5, y:0, vx:2.41, vy:-2.41, cobject: new cObject(c, parseFloat(7), "0, 0, 255",)});
+}

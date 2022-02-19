@@ -18,9 +18,7 @@ const cBodies = [
 {m: 3.2e-7,x: -0.57,y: -1.39,vx: 4.92,vy: -1.51,radius: 6.25,color:"230,  80,  40",}, //mars
 {m: 9.54e-4,x: 4.41,y: -2.35,vx: 1.263,vy: 2.56,radius: 12,color:"200, 110, 200",}, //jupiter
 {m: 1, x: 0, y: 0, vx: 0, vy: 0, radius: 20, color:"249, 215, 28",} //sun
-// { m:1, x:0, y:0, vx:-4.82, vy:4.82, radius: 7, color:"255, 0, 0",}, //3 body pseudo stable orbit (figure 8)
-// { m:1, x:1.5, y:0, vx:2.41, vy:-2.41, radius: 7, color: "0, 255, 0",},
-// { m:1, x:-1.5, y:0, vx:2.41, vy:-2.41, radius: 7, color: "0, 0, 255",}
+
 ]
 
 let UGC = 39.5; // universal gravitational constant 39.5
@@ -28,7 +26,7 @@ const dt = 0.008; //measured in years 0.008
 const softeningConstant = 0.15;
 const scale = 70;//scale 70
 let trailLimit = 0;
-let trailChange = 30;
+let trailChange = 10000;
 const velocityDragMult = 18;
 let collisionMode = false;
 
@@ -92,7 +90,7 @@ class nBodySimulation {
       //nested for loop checks 1 object against all other objects then repeats for every other object
       for (let j = 0; j < cBodiesLen; j++) {
         const otherBody = this.cBodies[j];
-        if (i !== j && this.cBodies[j] !== "empty" && this.cBodies[i] !== "empty" && thisBody.x != otherBody.x) { //more concise than (thisBody != otherBody) prevents checking the same object against itself
+        if (i !== j && this.cBodies[j] !== "empty" && this.cBodies[i] !== "empty" && thisBody.x != otherBody.x && thisBody.y != otherBody.y) { //more concise than (thisBody != otherBody) prevents checking the same object against itself
           if (collisionMode == true){
             let thisX = thisBody.x*scale + width/2;
             let thisY = thisBody.y*scale + width/2;
@@ -186,13 +184,23 @@ let mousePressY = 0;
 let currentMouseX = 0;
 let currentMouseY = 0;
 let dragging = false;
+let isMouseOver = 0; //determines whether mouse is hovering over canvas or not
+
+function onMouseOver(){ //linked to html event onmouseover
+  isMouseOver = 1; //yes
+}
+function onMouseOff(){ //linked to html event onmouseoff
+  isMouseOver = 0; //no
+}
 
 canvas.addEventListener("mousedown", 
  function(e) {
-    console.log(mousePressX);
     mousePressX = e.clientX; //taken directly frrom the window's data on the relative mouse parameters for x and y values 
     mousePressY = e.clientY;
     dragging = true;//mousedown vs mouseup discerns the positions and distances that are calculated
+    if (isMouseOver == 0){
+      dragging = false;
+    }
   },
   false
 );
@@ -200,9 +208,13 @@ canvas.addEventListener("mousemove",
   function(e) {
     currentMouseX = e.clientX;
     currentMouseY = e.clientY;
+    if (isMouseOver == 0){
+      dragging = false;
+    }
   },
   false
 );
+
 
 //////////////MOUSE OBJECT VARIABLES
 //////////////
@@ -214,6 +226,7 @@ let dragMass = 0.005; //drag is the value chosen via manual input using the para
 let dragSize = 5;
 let dragColor = "255, 255, 255";
 
+
 canvas.addEventListener("mouseup",
   function(e) {
     let x = (mousePressX - width / 2) / scale;
@@ -223,8 +236,8 @@ canvas.addEventListener("mouseup",
     //negative to simulate slingshot-like input feedback
     if (presetSelect == true){
       setPreset();
-      dMass = presetMass;
-      dSize = presetSize;
+      dMass = presetMass; //preset variables specific to manual value alterations
+      dSize = presetSize; //dValues are what actually get passed into
       dColor = presetColor;
     }else{
       dMass = dragMass;
@@ -257,7 +270,7 @@ canvas.addEventListener("mouseup",
 
     dragging = false;
   //placeholder cBody which pushes a pre determined object into the simulation at the mouse's position.
-    },
+},
     false
   );
 
@@ -284,11 +297,14 @@ canvas.addEventListener("mouseup",
       }
     }
     if (dragging){
-      c.beginPath();
+      c.beginPath(); //creates red line to visualise drag strength and position
       c.moveTo(mousePressX, mousePressY);
       c.lineTo(currentMouseX, currentMouseY);
       c.strokeStyle = "red";
       c.stroke();
+      if (isMouseOver == false){ //cancels drag and red line if not on canvas
+      dragging = false;
+      }
     }
     requestAnimationFrame(animate);
   };

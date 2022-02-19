@@ -9,11 +9,11 @@
 </head>
 
 <body>
-    <canvas>
+    <canvas onmouseover="onMouseOver()" onmouseout="onMouseOff()"> <!--mouse checks to ensure canvas dragging only occurs whilst on canvas-->
     </canvas>
-    <button onclick="showBtnTopObj()" class="paramBtn" id="objectTopBtn">ObjectTop</button> 
+    <button onclick="showBtnTopObj()" class="paramBtn" id="objectTopBtn">ObjectTop</button> <!--buttons for each GUI element-->
     <button onclick="showBtnBotObj()" class="paramBtn" id="objectBotBtn">ObjectBottom</button> 
-    <button onclick="showBtnPhysics()"class="paramBtn" id="physicsBtn">Physics</button> 
+    <button onclick="showBtnPhysics()" class="paramBtn" id="physicsBtn">Physics</button> 
     <button onclick="showBtnTime()" class="paramBtn" id="timeBtn">Time Dilation</button> 
     <button onclick="clearSim()" class="paramBtn" id="clearBtn">Clear Simulation</button>
     <button onclick="planetBdy()" class="objType" id="planetBtn">PlanetBdy</button>
@@ -21,8 +21,12 @@
     <button onclick="asteroidBdy()" class="objType" id="asteroidBtn">AsteroidBdy</button>
     <button class="objType" id="temp2Btn">temp2</button>
     <button class="objType" id="temp3Btn">temp3</button>
-
-    
+    <button onclick="showBtnScenario()" id="scenarioPresets">Scenario</button>
+    <button onclick="createSolar()" class="scenarioBtn" id="solarSysBtn">S</button> <!-- Preset Scenario buttons-->
+    <button onclick="createBinary()" class="scenarioBtn" id="binarySysBtn">B</button>
+    <button onclick="createUnstable()" class="scenarioBtn" id="unstableSysBtn">U</button>
+    <button onclick="createLagrange()" class="scenarioBtn" id="lagrSysBtn">L</button>
+    <button onclick="createEight()"class="scenarioBtn" id="eightSysBtn">E</button>
     <div id="objTypeLine"></div>
 
     <div class="paramChildBtn" id="objectTopChild"> 
@@ -33,7 +37,7 @@
             <span class="slider round" id="trailToggle"></span>
         </label>
         <div>Toggle Collisions</div>
-        <label class="switch">
+        <label class="switch"> 
             <input type="checkbox">
             <span class="slider round" id="collisionToggle"></span>
         </label>
@@ -55,7 +59,6 @@
         <input type="color" id="colorPicker" value= "#000000">
     </div>
         
-
 
     <div class="paramChildBtn" id="physicsChild">
         <div>Physics Manipulation</div>
@@ -81,7 +84,6 @@
         </div>
         <div>This affects the speed at which the simulation will run(note: too large values may display innacurate physics)</div>
     </div>
-
 
 
 
