@@ -1,5 +1,5 @@
-const canvas = document.querySelector("canvas"); //c stands for context
-const c = canvas.getContext("2d");
+let canvas = document.querySelector("canvas"); //c stands for context
+let c = canvas.getContext("2d");
 let width = (canvas.width = window.innerWidth);
 let height = (canvas.height = window.innerHeight);
 window.addEventListener("resize", function(){ //function to resize canvas when you resize window
@@ -9,6 +9,11 @@ window.addEventListener("resize", function(){ //function to resize canvas when y
   height = canvas.height;
   
 })
+
+drawgridLines = function() { //function to load gridlines onto the background of canvas
+  let img = document.getElementById("gridlinesImage");
+  c.drawImage(img, 0, -1.5, 1623, 1203);
+};
 
 //a scale reference is made when basing upon what the values of the cObjects should be, in this scenarion, m is equal to 1 solar mass
 const cBodies = [
@@ -26,7 +31,7 @@ const dt = 0.008; //measured in years 0.008
 const softeningConstant = 0.15;
 const scale = 70;//scale 70
 let trailLimit = 0;
-let trailChange = 10000;
+let trailChange = 100;
 const velocityDragMult = 18;
 let collisionMode = false;
 
@@ -278,13 +283,13 @@ canvas.addEventListener("mouseup",
 //MOUSE INTERACTION
 
 
-
-
-
 //animates and iteratively draws the objects visually on the canvas
   const animate = function(){
     nBodyInstance.updatePos().updateAccel().updateVel();//Accel update runs before Velocity
     c.clearRect(0, 0, width, height);  //clears the canvas screen of any objects (to input new positions of objects)
+    c.globalAlpha=0.15;
+    drawgridLines(); //first draws the gridlines before the the objects, so is in the background of the simulation rather on top
+    c.globalAlpha=1;
     const cBodiesLen = nBodyInstance.cBodies.length;
     for (let i = 0; i < cBodiesLen; i++){
       if (nBodyInstance.cBodies[i] !== "empty"){
@@ -307,8 +312,7 @@ canvas.addEventListener("mouseup",
       }
     }
     requestAnimationFrame(animate);
+
   };
   
 animate();
-
-

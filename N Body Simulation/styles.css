@@ -15,7 +15,6 @@ canvas {
     background: rgb(1, 2, 5);
 }
 
-
 body {
 margin: 0; /*overrides preset browser property so there is no margin for the container*/
     overflow: hidden; /*prevents use of scrollbar*/
@@ -27,35 +26,51 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
 
 .paramBtn {
     position: absolute; /*absolute positioning to allow objects inside canvas container*/
-    background: rgba(170, 209, 231, 0.212);
+    background: #051427;
+    border-color: #a44322;
+    border-radius: 5px;
     right: 10px;
     width: 90px;
     height: 80px;
+    border-width: 3px;
+    background-position: center; /* formatting the image */
+    background-repeat: no-repeat;
  
 }
 
 #clearBtn {
-    top:600px;
+     /* linking an image file in folder to the button*/
+    top: 600px;
 }
 #timeBtn {
-    top:500px;
+    top: 500px;
 }
 #physicsBtn {
-    top:400px;
+    top: 400px;
 }
 #objectBotBtn {
-    top:300px;
+    background-image: url("Icons/ObjectBottom.png");
+    background-size: 70px;
+    top: 300px;
+    border-bottom-width: 1px; 
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
 }
 #objectTopBtn {
-    top:220px;
+    background-image: url("Icons/ObjectTop.png");
+    background-size: 63px;
+    top: 220px;
+    border-bottom-width: 1px;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
 }
 
 /*parameter child popups*/
 .paramChildBtn{
     position: absolute;
     display: none;
-    background-color: rgba(44, 47, 51, 0.8);
-    border: 5px solid rgb(26, 26, 163, 0.8);
+    background-color: #051427;
+    border: 5px solid #530f1e;
     border-radius: 5px;
     right: 110px;
     top: 200px;
@@ -89,35 +104,31 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
     border-radius: 100px;
     position: absolute;
     height: 5px;
-    width: 550px;
+    width: 450px;
     right: 45px;
     top: 80px;
 }
 
 .objType {
     position: absolute;
-    background: rgba(90, 179, 179, 0.8);
+    background: #051427;
     border-radius: 15px;
     width: 60px;
     height: 50px;
     top: 18px;
 }
 #planetBtn {
-    right: 500px;
-}
-#starBtn {
     right: 400px;
 }
-#asteroidBtn {
+#solarBtn {
     right: 300px;
 }
-#temp2Btn {
+#asteroidBtn {
     right: 200px;
 }
-#temp3Btn {
+#blackHoleBtn {
     right: 100px;
 }
-
 
 
 
@@ -153,12 +164,13 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
 #unstableSysBtn {
     bottom: 221px;
 }
-#eightSysBtn {
+#lagrSysBtn {
     bottom: 279px;
 }
-#lagrSysBtn {
+#eightSysBtn {
     bottom: 337px;
 }
+
 
 
 
@@ -167,6 +179,7 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
 /*switch styles and animations */
 .switch {
     position: relative;
+    margin-left: 7px;
     display: inline-block;/*like inlineblock but width and height can be set */
     width: 38px;
     height: 23px;
@@ -208,4 +221,83 @@ input:checked + .slider:before {
 }
 .slider.round:before {
     border-radius: 45%;
+}
+
+
+/*info Event handling divs*/
+.infoBox {
+    position: absolute;
+    display: none;
+    bottom: -95px;
+    left: 100px;
+    height: 130px;
+    width: 310px;
+    background-color: rgb(21, 29, 53);
+
+    border: 2px  #dadada81;
+    border-radius: 5px;
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 20px #9ecaed;
+
+    transition-timing-function: ease-out;
+    transition: bottom 0.85s;
+}
+.infoBox:hover { /*pseudo class for interacting div with mouse*/
+    bottom: 5px;
+    box-shadow: 0 0 5px #9ecaed;
+
+
+}
+.infoBoxQuit { /*exit button styling for infoBox */
+    float: right;
+    margin: 5px;
+    border: none;
+}
+
+
+/*disabling popup button*/
+#disableInfoBox {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 20px;
+    left: 20px;
+    opacity: 40%;
+
+}
+
+/* HEX CODES:
+#000000 black
+#051427 dark blue
+#530f1e burgundy
+#a44322 deep orange
+#f8bc04 yellow */
+h1 {
+    font-family: 'Alegreya', serif;
+    font-size: 15px;
+    color: #e6e2e79f;
+    margin-left: 10px;
+}
+p {
+    font-family: 'Alegreya', serif;
+    font-size: 14px;
+    color: white;
+    display: block;
+}
+
+a { 
+    font-family: 'Alegreya', serif;
+    font-size: 14px;
+    color: rgb(202, 177, 177);
+    margin-left: 10px; 
+    margin-right: 10px;
+    display: inline;
+}
+
+.boxPara {
+    margin-left: 10px;
+    margin-bottom: 0px;
+    margin-top: 5px;
+    margin-right: 10px;
 }

@@ -146,15 +146,17 @@ presetMass = 0;
 presetSize = 0;
 presetColor = 0;
 
-let presetSelect = false;
+let presetSelect = false; //Duo data confirmation for selecting which body will be created
 let planetBodyCheck = false;
 let solarBodyCheck = false;
 let asteroidBodyCheck = false;
+let blackHoleCheck = false;
 
-function presetReset(){
+function presetReset(){ //shorhanded to save repeated writing in selection statements
   planetBodyCheck = false;
   solarBodyCheck = false;
   asteroidBodyCheck = false;
+  blackHoleCheck = false;
 }
 
 //what the HTML button calls upon being clicked
@@ -170,6 +172,7 @@ function planetBdy() {
     presetReset();
     presetSelect = false;
   }   
+  console.log(getComputedStyle(document.querySelector("#planetBdyBox")).display);
 }
 
 function solarBdy() {//same function purpose as planetBdy() for differnet preset
@@ -200,11 +203,25 @@ function asteroidBdy() {//similar to planetBdy()
   }   
 }
 
+function blackHoleBdy() {//similar to planetBdy()
+  if (blackHoleCheck == false && presetSelect == false){
+    presetReset();
+    blackHoleCheck = true;
+    presetSelect = true;
+  }else if (blackHoleCheck == false && presetSelect == true){
+    presetReset();
+    blackHoleCheck = true;
+  }else if (blackHoleCheck == true && presetSelect == true){
+    presetReset();
+    presetSelect = false;
+  }   
+}
+
 //function to input which preset to choose depending on which ubutton pressed
 function setPreset(){
   if (planetBodyCheck == true){ //planet preset
     presetMass = 3e-6;
-    presetSize = 5.1;
+    presetSize = 7.1;
     presetColor = "100,100,100";
   }else if (solarBodyCheck == true){ //sun preset
     presetMass = 1;
@@ -214,6 +231,10 @@ function setPreset(){
     presetMass = 3.318e-20;
     presetSize = Math.random() * (2 - 0.05) + 0.05; //random value between 2 and 0.05 to determine radius
     presetColor = "180,210,205";
+  }else if (blackHoleCheck == true){ //black hole
+    presetMass = 50;
+    presetSize = 9;
+    presetColor = "0,0,0";
   }
 }
 
