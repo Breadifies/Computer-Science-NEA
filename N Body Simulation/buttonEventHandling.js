@@ -152,12 +152,17 @@ let solarBodyCheck = false;
 let asteroidBodyCheck = false;
 let blackHoleCheck = false;
 
-function presetReset(){ //shorhanded to save repeated writing in selection statements
+function presetReset(){ //shorthanded to save repeated writing in selection statements
   planetBodyCheck = false;
   solarBodyCheck = false;
   asteroidBodyCheck = false;
   blackHoleCheck = false;
+  document.querySelector("#planetBtn").classList.remove("active"); //removes styling for pressed down button for every button when another is clicked
+  document.querySelector("#solarBtn").classList.remove("active");
+  document.querySelector("#asteroidBtn").classList.remove("active");
+  document.querySelector("#blackHoleBtn").classList.remove("active");
 }
+
 
 //what the HTML button calls upon being clicked
 function planetBdy() {
@@ -165,14 +170,16 @@ function planetBdy() {
     presetReset();
     planetBodyCheck = true;
     presetSelect = true;
+    document.querySelector("#planetBtn").classList.add("active"); //CSS handling so that object remains clicked when pressed
   }else if (planetBodyCheck == false && presetSelect == true){// if a body has been selected but not this one
     presetReset();
     planetBodyCheck = true;
+    document.querySelector("#planetBtn").classList.add("active");
   }else if (planetBodyCheck == true && presetSelect == true){// if this body has been selected and it has been clicked once
     presetReset();
     presetSelect = false;
+
   }   
-  console.log(getComputedStyle(document.querySelector("#planetBdyBox")).display);
 }
 
 function solarBdy() {//same function purpose as planetBdy() for differnet preset
@@ -180,9 +187,11 @@ function solarBdy() {//same function purpose as planetBdy() for differnet preset
     presetReset();
     solarBodyCheck = true;
     presetSelect = true;
+    document.querySelector("#solarBtn").classList.add("active");
   }else if (solarBodyCheck == false && presetSelect == true){
     presetReset();
     solarBodyCheck = true;
+    document.querySelector("#solarBtn").classList.add("active");
   }else if (solarBodyCheck == true && presetSelect == true){
     presetReset();
     presetSelect = false;
@@ -194,9 +203,11 @@ function asteroidBdy() {//similar to planetBdy()
     presetReset();
     asteroidBodyCheck = true;
     presetSelect = true;
+    document.querySelector("#asteroidBtn").classList.add("active");
   }else if (asteroidBodyCheck == false && presetSelect == true){
     presetReset();
     asteroidBodyCheck = true;
+    document.querySelector("#asteroidBtn").classList.add("active");
   }else if (asteroidBodyCheck == true && presetSelect == true){
     presetReset();
     presetSelect = false;
@@ -208,9 +219,11 @@ function blackHoleBdy() {//similar to planetBdy()
     presetReset();
     blackHoleCheck = true;
     presetSelect = true;
+    document.querySelector("#blackHoleBtn").classList.add("active");
   }else if (blackHoleCheck == false && presetSelect == true){
     presetReset();
     blackHoleCheck = true;
+    document.querySelector("#blackHoleBtn").classList.add("active");
   }else if (blackHoleCheck == true && presetSelect == true){
     presetReset();
     presetSelect = false;
@@ -222,7 +235,7 @@ function setPreset(){
   if (planetBodyCheck == true){ //planet preset
     presetMass = 3e-6;
     presetSize = 7.1;
-    presetColor = "100,100,100";
+    presetColor = "46, 204, 113";
   }else if (solarBodyCheck == true){ //sun preset
     presetMass = 1;
     presetSize = 18;
@@ -288,8 +301,9 @@ let normal = 2.5; //math to calculate stable orbit
 let normalX = Math.sin(1/6 * Math.PI)* normal;
 let normalY = Math.cos(1/6 * Math.PI)* normal;
 let length = 2.5;
-let lengthX = Math.sin(1/3 * Math.PI)* length;
-let lengthY = Math.cos(1/3 * Math.PI)* length;
+let lengthX = Math.sin(1/3 * Math.PI)*length;
+let lengthY = Math.cos(1/3 * Math.PI)*length;
+
 function createLagrange(){ //3 body example (easily disrupted)
   clearSim();
   nBodyInstance.cBodies.push({m:1, x:0, y:-length, vx:-normalX, vy:normalY, cobject: new cObject(c, parseFloat(7), "255, 0, 0",)});

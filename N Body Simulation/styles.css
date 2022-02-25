@@ -12,7 +12,7 @@ input[type=number] {
 
 canvas {
     border: 1px solid black;
-    background: rgb(1, 2, 5);
+    background: rgb(2, 4, 7);
 }
 
 body {
@@ -39,17 +39,22 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
 }
 
 #clearBtn {
-     /* linking an image file in folder to the button*/
+    background-image: url("Icons/clearSimulationPlanet.png"); /* linking an image file in folder to the button*/
+    background-size: 65px; /* editing size of image */
     top: 600px;
 }
 #timeBtn {
+    background-image: url("Icons/timeDilation.png");
+    background-size: 54px;
     top: 500px;
 }
 #physicsBtn {
+    background-image: url("Icons/physics.png");
+    background-size: 59px;
     top: 400px;
 }
 #objectBotBtn {
-    background-image: url("Icons/ObjectBottom.png");
+    background-image: url("Icons/ObjectBottom.png"); 
     background-size: 70px;
     top: 300px;
     border-bottom-width: 1px; 
@@ -57,7 +62,7 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
     border-top-right-radius: 1px;
 }
 #objectTopBtn {
-    background-image: url("Icons/ObjectTop.png");
+    background-image: url("Icons/ObjectTop.png");  
     background-size: 63px;
     top: 220px;
     border-bottom-width: 1px;
@@ -70,7 +75,7 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
     position: absolute;
     display: none;
     background-color: #051427;
-    border: 5px solid #530f1e;
+    border: 2px solid #530f1e;
     border-radius: 5px;
     right: 110px;
     top: 200px;
@@ -109,24 +114,45 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
     top: 80px;
 }
 
-.objType {
+.objType{
     position: absolute;
     background: #051427;
     border-radius: 15px;
+    border-width: 2px;
+    border-color: #926759;
+    opacity: 0.7;
     width: 60px;
     height: 50px;
     top: 18px;
+    background-position: center; /* formatting the image */
+    background-repeat: no-repeat;
+}
+
+.objType:active,
+ .active { /*when the button stays clicked*/
+    top: 16px;
+    border-width: 3px;
+    opacity: 1;
+    border-style: outset;/* removing defualt button style */
+    
 }
 #planetBtn {
+    background-image: url("Icons/placePlanet.png");
+    background-size: 66px;
     right: 400px;
 }
 #solarBtn {
+    background-image: url("Icons/placeStar.png");
+    background-size: 64px;
     right: 300px;
 }
 #asteroidBtn {
+    background-image: url("Icons/placeAsteroids.png");
+    background-size: 65px;
     right: 200px;
 }
 #blackHoleBtn {
+    background-image: url("Icons/placeBlackHole.png");
     right: 100px;
 }
 
@@ -135,39 +161,60 @@ margin: 0; /*overrides preset browser property so there is no margin for the con
 
 #scenarioPresets { /*styling for the scenario preset buttons and positioning*/ 
     position: absolute;
-    background: rgba(36, 113, 230, 0.4);
+    background: rgba(36, 113, 230);
     border-radius: 10px;
+    border-width: 2px;
+    border-color: white;
+    opacity: 0.45;
     left: 10px;
     bottom: 40px;
     width: 55px;
     height: 55px;
+    background-position: center; /* formatting the image */
+    background-repeat: no-repeat;
+    background-image: url("Icons/scenarioOrbit.png");
+    background-size: 50px;
 }
 
 .scenarioBtn {
     position: absolute;
     display: none;
     background-color: rgba(127, 150, 179, 0.6);
+    border-color: rgba(255, 255, 255, 0.6);
     border-radius: 5px;
     border-width: 1px;
+    opacity: 0.8;
     left: 12px;
     bottom: 100px;
     width: 50px;
     height: 50px;
+    background-position: center; /* formatting the image */
+    background-repeat: no-repeat;
 }
 
 #solarSysBtn {
+    background-image: url("Icons/SolarSystem.png");
+    background-size: 54px;
     bottom: 105px;
 }
 #binarySysBtn {
+    background-image: url("Icons/binarySystem.png");
+    background-size: 50px;
     bottom: 163px;
 }
 #unstableSysBtn {
+    background-image: url("Icons/unstableSystem.png");
+    background-size: 56px;
     bottom: 221px;
 }
 #lagrSysBtn {
+    background-image: url("Icons/lagrangeSystem.png");
+    background-size: 150px;
     bottom: 279px;
 }
 #eightSysBtn {
+    background-image: url("Icons/figureEight.png");
+    background-size: 57px;
     bottom: 337px;
 }
 
@@ -234,7 +281,7 @@ input:checked + .slider:before {
     width: 310px;
     background-color: rgb(21, 29, 53);
 
-    border: 2px  #dadada81;
+    border: 2px  #dadada81; /* creation of glow effect via shadows */
     border-radius: 5px;
     outline: none;
     border-color: #9ecaed;
@@ -246,8 +293,6 @@ input:checked + .slider:before {
 .infoBox:hover { /*pseudo class for interacting div with mouse*/
     bottom: 5px;
     box-shadow: 0 0 5px #9ecaed;
-
-
 }
 .infoBoxQuit { /*exit button styling for infoBox */
     float: right;
@@ -258,12 +303,17 @@ input:checked + .slider:before {
 
 /*disabling popup button*/
 #disableInfoBox {
+    font-family:'Segoe UI', sans-serif;
+    color: rgb(255, 255, 255, 0.3);
     position: absolute;
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    height: 45px;
     top: 20px;
     left: 20px;
-    opacity: 40%;
+    background-color: rgb(255, 203, 203, 0.3);
+    border-color: rgb(207, 83, 83, 0.3);
+    border-width: 3px;
+    border-radius: 4px;
 
 }
 
@@ -300,4 +350,11 @@ a {
     margin-bottom: 0px;
     margin-top: 5px;
     margin-right: 10px;
+}
+
+.hoverMe {
+    display: inline;
+    font-family: 'Open Sans', sans-serif;
+    margin: 8px;
+    color: rgb(231, 33, 33);
 }

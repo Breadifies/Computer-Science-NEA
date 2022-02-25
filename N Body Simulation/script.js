@@ -31,7 +31,7 @@ const dt = 0.008; //measured in years 0.008
 const softeningConstant = 0.15;
 const scale = 70;//scale 70
 let trailLimit = 0;
-let trailChange = 100;
+let trailChange = 30;
 const velocityDragMult = 18;
 let collisionMode = false;
 

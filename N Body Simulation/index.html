@@ -5,29 +5,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no">
-    <style>@import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap');</style>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap'); @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');</style>
+   
     <title>Document</title>
 </head>
 
 <body></body>
-<img id="gridlinesImage" src="Icons/gridlines.png" style="display: none;" />
+<img id="gridlinesImage" src="Icons/gridlines.png" style="display: none;" /> 
     <canvas id="thisCanvas" onmouseover="onMouseOver()" onmouseout="onMouseOff()"> <!--mouse checks to ensure canvas dragging only occurs whilst on canvas-->
     </canvas>
     <button onclick="showBtnTopObj()" class="paramBtn" id="objectTopBtn"></button> <!--buttons for each GUI element-->
     <button onclick="showBtnBotObj()" class="paramBtn" id="objectBotBtn"></button> 
-    <button onclick="showBtnPhysics()" class="paramBtn" id="physicsBtn">Physics</button> 
-    <button onclick="showBtnTime()" class="paramBtn" id="timeBtn">Time Dilation</button> 
-    <button onclick="clearSim()" class="paramBtn" id="clearBtn">Clear Simulation</button>
-    <button onclick="planetBdy()" class="objType" id="planetBtn">PlanetBdy</button>
-    <button onclick="solarBdy()" class="objType" id="solarBtn">SolarBdy</button>
-    <button onclick="asteroidBdy()" class="objType" id="asteroidBtn">AsteroidBdy</button>
-    <button onclick="blackHoleBdy()" class="objType" id="blackHoleBtn">Black Hole</button>
-    <button onclick="showBtnScenario()" id="scenarioPresets">Scenario</button>
-    <button onclick="createSolar()" class="scenarioBtn" id="solarSysBtn">S</button> <!-- Preset Scenario buttons-->
-    <button onclick="createBinary()" class="scenarioBtn" id="binarySysBtn">B</button>
-    <button onclick="createUnstable()" class="scenarioBtn" id="unstableSysBtn">U</button>
-    <button onclick="createLagrange()" class="scenarioBtn" id="lagrSysBtn">L</button>
-    <button onclick="createEight()"class="scenarioBtn" id="eightSysBtn">E</button>
+    <button onclick="showBtnPhysics()" class="paramBtn" id="physicsBtn"></button> 
+    <button onclick="showBtnTime()" class="paramBtn" id="timeBtn"></button> 
+    <button onclick="clearSim()" class="paramBtn" id="clearBtn"></button>
+    <button onclick="planetBdy()" class="objType" id="planetBtn"></button>
+    <button onclick="solarBdy()" class="objType" id="solarBtn"></button>
+    <button onclick="asteroidBdy()" class="objType" id="asteroidBtn"></button>
+    <button onclick="blackHoleBdy()" class="objType" id="blackHoleBtn"></button>
+    <button onclick="showBtnScenario()" id="scenarioPresets"></button>
+    <button onclick="createSolar()" class="scenarioBtn" id="solarSysBtn"></button> <!-- Preset Scenario buttons-->
+    <button onclick="createBinary()" class="scenarioBtn" id="binarySysBtn"></button>
+    <button onclick="createUnstable()" class="scenarioBtn" id="unstableSysBtn"></button>
+    <button onclick="createLagrange()" class="scenarioBtn" id="lagrSysBtn"></button>
+    <button onclick="createEight()"class="scenarioBtn" id="eightSysBtn"></button>
     <div id="objTypeLine"></div>
 
     <div class="paramChildBtn" id="objectTopChild" style="margin-left: 5px;"> 
@@ -90,8 +91,9 @@
     <!--infoBox html for each popup created from user interactions-->
     <div class="infoBox" id="planetBdyBox">
         <button onclick="this.parentElement.style.display = 'none';" class="infoBoxQuit">x</button> <!-- When this button is clicked, its parent element will dispappear (style set to none)-->
-        <h1>Planetary Bodies</h1>
-        <p class="boxPara">The earth is around 10^6 times lighter than our sun. Terrestial planets orbiting stars similar to ours have relatively similar radius' and masses,</p> <a href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank" > usually only off by a magnitude of 10</a> 
+        <h1 style="display: inline;">Planetary Bodies</h1>
+        <div class="hoverMe">HOVER OVER ME!</div>
+        <p class="boxPara">The earth is around 10^6 times lighter than our sun. Terrestial planets orbiting stars similar to ours have relatively similar radius' and masses,</p> <a href="https://en.wikipedia.org/wiki/Exoplanet" target="_blank" > usually only off up to a magnitude of 10</a> 
     </div>
     <div class="infoBox" id="solarBdyBox">
         <button onclick="this.parentElement.style.display = 'none';" class="infoBoxQuit">x</button> 
@@ -127,7 +129,7 @@
         <button onclick="this.parentElement.style.display = 'none';" class="infoBoxQuit">x</button> 
     </div>
 
-    <button onclick="disablePopups()" id="disableInfoBox">Dis</button>
+    <button onclick="disablePopups()" id="disableInfoBox">Disable popups</button>
 
 
 
