@@ -1,13 +1,15 @@
 let popupsOn = true;
-function disablePopups() {
+function disablePopups() { //manipulate the state of the popup toggle button
     if (popupsOn == false){
         popupsOn = true;
-    }else{
-        popupsOn = false;
+        document.querySelector("#disableInfoBox").classList.remove("info"); //remove/apply the class styling for this element
+        document.querySelector("#disableInfoBox").innerHTML = "POPUPS ON"; //replaces html in the element depending on state
+    }else if (popupsOn == true){
+        popupsOn = false; 
+        document.querySelector("#disableInfoBox").classList.add("info");
+        document.querySelector("#disableInfoBox").innerHTML = "POPUPS OFF";
     }
-    console.log(popupsOn);
 }
-
 
 let planetBoxCheck = false; //event handling for when planetBdy is pressed
 document.querySelector("#planetBtn").addEventListener("click", function(){
